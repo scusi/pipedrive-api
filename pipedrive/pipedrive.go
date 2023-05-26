@@ -14,6 +14,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"log"
 
 	"github.com/google/go-querystring/query"
 )
@@ -157,7 +158,7 @@ func (c *Client) NewRequest(method, url string, opt interface{}, body interface{
 	if body != nil {
 		request.Header.Set("Content-Type", "application/json")
 	}
-
+	log.Printf("NewRequest: %v", request)
 	return request, nil
 }
 
