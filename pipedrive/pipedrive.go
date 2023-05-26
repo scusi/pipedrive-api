@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	defaultBaseUrl = "api.pipedrive.com/"
+	defaultBaseUrl = "certainity.pipedrive.com/api/"
 
 	libraryVersion = "1"
 
