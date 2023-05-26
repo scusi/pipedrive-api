@@ -167,7 +167,7 @@ func (s *DealService) ListUpdates(ctx context.Context, id int) (*DealsResponse, 
 //
 // Pipedrive API docs: https://developers.pipedrive.com/docs/api/v1/#!/Deals/get_deals_find
 func (s *DealService) Find(ctx context.Context, term string) (*DealsResponse, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodGet, "/deals/find", &SearchOptions{
+	req, err := s.client.NewRequest(http.MethodGet, "/deals/search", &SearchOptions{
 		Term: term,
 	}, nil)
 
