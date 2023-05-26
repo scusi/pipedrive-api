@@ -162,12 +162,34 @@ func (s *DealService) ListUpdates(ctx context.Context, id int) (*DealsResponse, 
 
 	return record, resp, nil
 }
+// Search deals
+//
+// Pipedrive API Docs: https://developers.pipedrive.com/docs/api/v1/Deals#searchDeals
+func (s *DealService) Search(ctx context.Context, term string) (*DealsResponse, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "/deals/search", &SearchOptions{
+		Term: term,
+	}, nil)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var record *DealsResponse
+
+	resp, err := s.client.Do(ctx, req, &record)
+
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return record, resp, nil
+}
 
 // Find deals by name.
-//
+// DEPRECATED
 // Pipedrive API docs: https://developers.pipedrive.com/docs/api/v1/#!/Deals/get_deals_find
 func (s *DealService) Find(ctx context.Context, term string) (*DealsResponse, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodGet, "/deals/search", &SearchOptions{
+	req, err := s.client.NewRequest(http.MethodGet, "/deals/find", &SearchOptions{
 		Term: term,
 	}, nil)
 
