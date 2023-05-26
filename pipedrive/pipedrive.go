@@ -302,7 +302,7 @@ func (c *Client) SetOptions(options ...func(*Client) error) error {
 }
 
 func NewClient(options *Config) *Client {
-	if options.CompanyDomain != nil {
+	if options.CompanyDomain != "" {
 		baseURL, _ := url.Parse("https://" + options.CompanyDomain + ".pipedrive.com/api/v1")
 	} else {
 		baseURL, _ := url.Parse(defaultBaseUrl)
