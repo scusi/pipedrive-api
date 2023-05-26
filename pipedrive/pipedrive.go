@@ -259,7 +259,7 @@ func (c *Client) Do(ctx context.Context, request *http.Request, v interface{}) (
 }
 
 func (c *Client) createRequestUrl(path string, opt interface{}) (string, error) {
-	uri, err := c.BaseURL.Parse(hostProtocol + "://" + defaultBaseUrl + "api/v" + libraryVersion)
+	uri, err := c.BaseURL.Parse(hostProtocol + "://" + defaultBaseUrl + "v" + libraryVersion)
 
 	if err != nil {
 		return path, err
