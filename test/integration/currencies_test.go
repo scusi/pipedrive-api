@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/genert/pipedrive-api/pipedrive"
+	"github.com/scusi/pipedrive-api/pipedrive"
 	"github.com/go-test/deep"
 )
 
