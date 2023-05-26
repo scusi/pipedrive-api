@@ -259,7 +259,7 @@ func (c *Client) Do(ctx context.Context, request *http.Request, v interface{}) (
 }
 
 func (c *Client) createRequestUrl(path string, opt interface{}) (string, error) {
-	uri, err := c.BaseURL.Parse(hostProtocol + "://" + defaultBaseUrl + "v" + libraryVersion)
+	uri, err := c.BaseURL.Parse(hostProtocol + "://" + defaultBaseUrl + "api/v" + libraryVersion)
 
 	if err != nil {
 		return path, err
@@ -302,7 +302,11 @@ func (c *Client) SetOptions(options ...func(*Client) error) error {
 }
 
 func NewClient(options *Config) *Client {
-	baseURL, _ := url.Parse(defaultBaseUrl)
+	if options.CompanyDomain != nil {
+		baseURL, _ := url.Parse("https://" + options.CompanyDomain + ".pipedrive.com/api/v1")
+	} else {
+		baseURL, _ := url.Parse(defaultBaseUrl)
+	}
 
 	c := &Client{
 		client:  http.DefaultClient,
