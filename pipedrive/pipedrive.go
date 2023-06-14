@@ -306,7 +306,7 @@ func NewClient(options *Config) *Client {
         var baseURL *url.URL
 	baseURL, _ = url.Parse(defaultBaseUrl)
 	if options.CompanyDomain != "" {
-		baseURL, _ = url.Parse("https://" + options.CompanyDomain + ".pipedrive.com/api/v1")
+		baseURL, _ = url.Parse("https://" + options.CompanyDomain + ".pipedrive.com/api/v1/")
 	} else {
 		baseURL, _ = url.Parse(defaultBaseUrl)
 	}
