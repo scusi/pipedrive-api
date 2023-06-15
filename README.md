@@ -1,7 +1,5 @@
 # Golang Pipedrive client
 
-[![Build Status](https://travis-ci.org/Genert/go-pipedrive.svg?branch=master)](https://travis-ci.org/Genert/go-pipedrive)
-
 Requires Go version 1.7 or greater.
 
 # Supported resources
@@ -36,7 +34,7 @@ Requires Go version 1.7 or greater.
 ## Installation
 
 ```go
-go get -v github.com/genert/pipedrive-api/pipedrive
+go get -v github.com/scusi/pipedrive-api/pipedrive
 ```
 
 ## Usage
