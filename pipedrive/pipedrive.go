@@ -349,7 +349,7 @@ func NewClient(options *Config) *Client {
 		client:  http.DefaultClient,
 		BaseURL: baseURL,
 		apiKey:  options.APIKey,
-		Tracelog: option.Tracelog,
+		tracelog: option.Tracelog,
 	}
 	// print to the trace log what url we are actually using
 	c.tracef("Using URL [%s]\n", c.BaseURL)
