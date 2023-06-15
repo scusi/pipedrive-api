@@ -6,8 +6,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"os"
 	"io/ioutil"
 	"net/http"
+	"het/http/httputil"
 	"net/url"
 	"reflect"
 	"strconv"
@@ -49,6 +51,8 @@ type Client struct {
 	rateMutex   sync.Mutex
 	currentRate Rate
 
+	tracelog	*log.Logger
+
 	// Reuse a single struct instead of allocating one for each service.
 	common service
 
@@ -87,6 +91,7 @@ type service struct {
 type Config struct {
 	APIKey        string
 	CompanyDomain string
+	Tracelog	*log.Logger
 }
 
 type Rate struct {
@@ -123,6 +128,34 @@ func parseRateFromResponse(r *http.Response) Rate {
 	}
 
 	return rate
+}
+
+// tracef logs to the trace log
+func (c *Client) tracef(format string, args ...interface{}) {
+	if c.tracelog != nil {
+		c.tracelog.Printf(format, args...)
+	}
+}
+
+
+// dumpRequest dumps a request to the debug logger if it was defined
+func (self *Client) dumpRequest(req *http.Request) {
+	if self.tracelog != nil {
+		out, err := httputil.DumpRequestOut(req, true)
+		if err == nil {
+			self.tracef("%s\n", string(out))
+		}
+	}
+}
+
+// dumpResponse dumps a response to the debug logger if it was defined
+func (self *Client) dumpResponse(resp *http.Response) {
+	if self.tracelog != nil {
+		out, err := httputil.DumpResponse(resp, true)
+		if err == nil {
+			self.tracef("%s\n", string(out))
+		}
+	}
 }
 
 func (c *Client) NewRequest(method, url string, opt interface{}, body interface{}) (*http.Request, error) {
@@ -220,8 +253,9 @@ func (c *Client) Do(ctx context.Context, request *http.Request, v interface{}) (
 			Response: err.Response,
 		}, err
 	}
-
+	c.dumpRequest(req)
 	resp, err := c.client.Do(request)
+	c.dumpResponse(resp)
 
 	if err != nil {
 		select {
@@ -310,12 +344,16 @@ func NewClient(options *Config) *Client {
 	} else {
 		baseURL, _ = url.Parse(defaultBaseUrl)
 	}
-
+	
 	c := &Client{
 		client:  http.DefaultClient,
 		BaseURL: baseURL,
 		apiKey:  options.APIKey,
+		Tracelog: option.Tracelog,
 	}
+	// print to the trace log what url we are actually using
+	c.tracef("Using URL [%s]\n", c.BaseURL)
+
 
 	c.common.client = c
 
