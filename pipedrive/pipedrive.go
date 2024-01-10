@@ -9,7 +9,7 @@ import (
 	"os"
 	"io/ioutil"
 	"net/http"
-	"het/http/httputil"
+	"net/http/httputil"
 	"net/url"
 	"reflect"
 	"strconv"
